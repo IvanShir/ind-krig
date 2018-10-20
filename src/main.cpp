@@ -1,11 +1,11 @@
 #include <iostream>
-//#include "fileparser.h"
+#include <thread>
 #include "kriging/kriging.h"
 #include "FileParser/fileparser.h"
 #include <string>
 
 int main(int argc, char **argv) {
-  std::string modelName = "../grids/input/one_layerbenchmark.grd";
+  std::string modelName = "../grids/input/small_benchmark.grd";
   std::string outFile   = "../grids/out/test.grd";
   KrigIndic::Variogram var;
   std::cout << argc << "\n";
@@ -24,11 +24,12 @@ int main(int argc, char **argv) {
 
   KrigIndic::FileParser parser;
   KrigIndic::Model m;
-  std::cout << "reading from: " << modelName << "\n"; 
+  std::cout << "reading from: " << modelName << "\n";
   parser.readfile(modelName, m);
 
   KrigIndic::Kriging krig;
-  krig.kriging(m, var);
+  unsigned concurentThreadsSupported = std::thread::hardware_concurrency();
+  krig.kriging(m, var, concurentThreadsSupported);
   parser.writefile(outFile, m);
   std::cout << "to file: " << outFile << "\n";
 }

@@ -19,7 +19,7 @@ namespace KrigIndic {
 
   class Kriging {
   public:
-    void kriging(KrigIndic::Model&, Variogram);
+    void kriging(KrigIndic::Model&, Variogram, int);
     void lito_classification(KrigIndic::Model&);
     Eigen::VectorXd distances(KrigIndic::Model&, std::vector<KrigIndic::Point>&, int);
     void nearest_cells(KrigIndic::Model& ,Eigen::VectorXd&,

@@ -114,12 +114,12 @@ void Kriging::nearest_cells(KrigIndic::Model& model, VectorXd& distances,
 }
 
 
-void Kriging::kriging(KrigIndic::Model& model, KrigIndic::Variogram vario) {
+void Kriging::kriging(KrigIndic::Model& model, KrigIndic::Variogram vario, int n_j) {
   model.CalcCellsCoordinate();
   std::set<double> lito_types;
   std::vector<KrigIndic::Point> initial_lito_points_global;
   std::vector<double> initial_lito_vals;
-  int n_nearest = 2000;
+  //int n_nearest = 2000;
   for (int i = 0; i < model.NumOfCells(); i++) {
       if (model.lito_indic[i] != 0) {
         lito_types.insert(model.lito_indic[i]);
@@ -160,13 +160,13 @@ void Kriging::kriging(KrigIndic::Model& model, KrigIndic::Variogram vario) {
   };
 
   std::vector<std::thread> runners;
-  int totWorkers = 4;
+  int totWorkers = n_j;
   int tot = model.NumOfCells();
   for (int i = 0; i < totWorkers; i++) {
     int begin = i * tot / totWorkers;
     int end =  std::min((i + 1) * tot / totWorkers, tot);
     std::cout << "begin " << begin << "; end " << end << "\n";
-    runners.emplace_back([&, begin, end](){f (begin, end); std::cout << "job done\n;"; });
+    runners.emplace_back([&, begin, end](){f (begin, end); std::cout << "job done;\n"; });
   }
 
   for (auto &th: runners) {

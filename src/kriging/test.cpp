@@ -9,7 +9,7 @@ int main() {
   KrigIndic::Model m;
   const double PI  = 3.141592653589793238463;
   parser.readfile("../../grids/input/BW_3Dmodel.grd", m);
-  //parser.readfile("../../grids/input/small_benchmark.grd", m);
+  //parser.readfile("../../grids/input/one_rowbenchmark.grd", m);
   std::cout << "Enter variogram params: " << "\n";
   KrigIndic::Variogram var;
   std::cin >> var.sill >> var.radX >> var.radY >> var.radZ >> var.angXY;
